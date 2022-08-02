@@ -4,10 +4,7 @@ import com.hwang.staste.model.entity.Article;
 import com.hwang.staste.service.ArticleService;
 import com.hwang.staste.service.impl.ArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,8 +29,8 @@ public class ArticleController {
     }
 
     @PostMapping("/article")
-    public void postArticle(){
-
+    public Article postArticle(@RequestBody Article article){
+        return articleService.postArticle(article);
     }
 
 }
