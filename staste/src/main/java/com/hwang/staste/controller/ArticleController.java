@@ -33,4 +33,10 @@ public class ArticleController {
         return articleService.postArticle(article);
     }
 
+    @DeleteMapping("/article/{id}")
+    public void deleteArticle(@PathVariable Long id) {
+        articleService.deleteArticle(id);
+        System.out.print(id);
+    }
+
 }

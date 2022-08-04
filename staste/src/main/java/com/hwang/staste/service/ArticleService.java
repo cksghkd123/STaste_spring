@@ -8,4 +8,6 @@ public interface ArticleService {
     List<Article> getArticles();
 
     Article postArticle(Article article);
+
+    void deleteArticle(Long articleId);
 }
