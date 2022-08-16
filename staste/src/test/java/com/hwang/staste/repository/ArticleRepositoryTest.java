@@ -1,7 +1,6 @@
 package com.hwang.staste.repository;
 
 import com.hwang.staste.model.entity.Article;
-import org.aspectj.lang.annotation.After;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

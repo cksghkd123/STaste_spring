@@ -2,7 +2,6 @@ package com.hwang.staste.controller;
 
 import com.hwang.staste.model.entity.Article;
 import com.hwang.staste.service.ArticleService;
-import com.hwang.staste.service.impl.ArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
