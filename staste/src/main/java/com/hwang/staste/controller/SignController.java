@@ -72,7 +72,7 @@ public class SignController {
 //    }
 
     @PostMapping("/signUp")
-    public String signUp(User user) {
+    public String signUp(@RequestBody User user) {
         System.out.println(user);
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);

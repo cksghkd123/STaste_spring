@@ -14,12 +14,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
-    //구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
+//    구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         System.out.println("getClientRegistration: "+userRequest.getClientRegistration());

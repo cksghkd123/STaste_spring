@@ -15,8 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // secured 어노테이션 활성화 , preAuthorize 어노테이션 활성화
 public class SecurityConfig {
 
-//    @Autowired
-//    private PrincipalOauth2UserService principalOauth2UserService;
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
 
     // Bean을 쓰면 해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다.
     @Bean
@@ -40,8 +40,8 @@ public class SecurityConfig {
                 .and()
                 .oauth2Login()
                 .loginPage("/loginForm")
-                .userInfoEndpoint();
-//                .userService(principalOauth2UserService); // 구글 로그인이 완료된 뒤의 후처리가 필요함. Tip. 코드x (엑세스토큰 + 사용자프로필정보 O)
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService); // 구글 로그인이 완료된 뒤의 후처리가 필요함. Tip. 코드x (엑세스토큰 + 사용자프로필정보 O)
 
         // 1. 코드받기(인증), 2. 엑세스토큰(권한), 3.사용자프로필 정보를 가져옴
         // 4-1. 그 정보를 토대로 회원가입을 자동으로 진행시키기도 함 (이메일, 전화번호, 이름, 아이디) -> 구글이 주는 정보로만 회원가입 가능
