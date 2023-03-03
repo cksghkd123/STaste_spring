@@ -1,6 +1,7 @@
 package com.hwang.staste.config.oauth;
 
 import com.hwang.staste.config.auth.PrincipalDetails;
+import com.hwang.staste.model.entity.Article;
 import com.hwang.staste.model.entity.User;
 import com.hwang.staste.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private UserRepository userRepository;
-//    구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
+    private final UserRepository userRepository;
+
+    public PrincipalOauth2UserService(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userRepository = userRepository;
+    }
+
+    //    구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         System.out.println("getClientRegistration: "+userRequest.getClientRegistration());

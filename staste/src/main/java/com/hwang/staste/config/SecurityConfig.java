@@ -27,9 +27,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/user/**").authenticated()
-                .antMatchers("/manager/**").access("hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')")
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -43,9 +40,6 @@ public class SecurityConfig {
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService); // 구글 로그인이 완료된 뒤의 후처리가 필요함. Tip. 코드x (엑세스토큰 + 사용자프로필정보 O)
 
-        // 1. 코드받기(인증), 2. 엑세스토큰(권한), 3.사용자프로필 정보를 가져옴
-        // 4-1. 그 정보를 토대로 회원가입을 자동으로 진행시키기도 함 (이메일, 전화번호, 이름, 아이디) -> 구글이 주는 정보로만 회원가입 가능
-        // 4-2. 추가적인 정보가 필요하기도 함 ->  쇼핑몰 -> (집주소), 쇼핑몰 -> (vip등급, 일반등급)
         return http.build();
 
     }
