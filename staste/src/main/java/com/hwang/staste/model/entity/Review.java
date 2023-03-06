@@ -9,7 +9,7 @@ public class Review {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "FOOD_ID")
     private Food food;
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*",allowedHeaders = "*")
+@CrossOrigin(origins = "*",allowedHeaders = "*") // CorsConfig 만들었기때문에 지워도 됨
 public class ArticleController {
     private final ArticleService articleService;
 

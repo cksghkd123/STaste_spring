@@ -40,7 +40,5 @@ public class User {
         this.providerId = providerId;
         this.createDate = createDate;
     }
-    @OneToMany
-    private List<EatenFood> eatenFoods;
 
 }
