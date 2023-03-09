@@ -25,20 +25,25 @@ public class User {
     private String password;
     @Column(nullable = false)
     private String email;
+    private String roles;
     private String provider;
     private String providerId;
 
     @CreationTimestamp
     private Timestamp createDate;
 
+
     @Builder
-    public User(String username, String password, String email, String provider, String providerId, Timestamp createDate){
+    public User(String username, String password, String email, String roles,String provider, String providerId, Timestamp createDate){
         this.username = username;
         this.password = password;
         this.email = email;
+        this.roles = roles;
         this.provider = provider;
         this.providerId = providerId;
         this.createDate = createDate;
     }
+
+
 
 }

@@ -1,13 +1,6 @@
 package com.hwang.staste.config.auth;
 
 
-// 시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행시킨다.
-// 로그인을 진행이 완료가 되면 시큐리티 (자신만의 시큐리티 공간) session 을 만들어준다. (Security ContextHolder 에 세션정보 저장)
-// 오브젝트 => Authentication 타입 객체
-// Authentication 안에 User 정보가 있어야 됨.
-// User 오브젝트타입 => UserDetails 타입 객체
-
-// Security Session => Authentication 객체 => UserDetails 객체
 import com.hwang.staste.model.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,20 +15,22 @@ import java.util.Map;
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; //콤포지션
-    private Map<String,Object> attributes;
+    private Map<String, Object> attributes;
 
     //일반 로그인
     public PrincipalDetails(User user) {
         this.user = user;
     }
+
     //OAuth 로그인
-    public PrincipalDetails(User user,Map<String, Object> attributes) {
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
         this.user = user;
         this.attributes = attributes;
     }
 
 
     //해당 User의 권한을 리턴하는 곳!!
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

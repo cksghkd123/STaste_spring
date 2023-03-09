@@ -10,6 +10,10 @@ public class Review {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "FOOD_ID")
     private Food food;
 

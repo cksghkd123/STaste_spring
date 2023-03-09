@@ -20,12 +20,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> getReviewsByUser(Long userId) {
-        reviewRepository.findB
         return null;
     }
 
     @Override
     public List<Review> getReviewsByStore(Long storeId) {
+
         return null;
     }
 
@@ -36,11 +36,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review postReview(Review review) {
-        return null;
+        return reviewRepository.save(review);
     }
 
     @Override
     public void deleteReview(Long reviewId) {
-
+        reviewRepository.deleteById(reviewId);
     }
+
 }
