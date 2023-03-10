@@ -1,43 +1,49 @@
 package com.hwang.staste.config;
+
+import com.hwang.staste.config.jwt.JwtAuthenticationFilter;
+import com.hwang.staste.config.jwt.JwtTokenProvider;
+import com.hwang.staste.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // secured 어노테이션 활성화 , preAuthorize 어노테이션 활성화
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final UserRepository userRepository;
+    private final CorsConfig corsConfig;
+    private final JwtTokenProvider jwtTokenProvider;
 
-
-    // Bean을 쓰면 해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다.
     @Bean
-    public BCryptPasswordEncoder encodePwd() {
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf().disable() // cross site request forgery 인증된 사용자의 토큰을 탈취해 위조 요청을 보냈을 경우 방지하는 것을 해제하겠다.
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 세션 해제하겠다.
+                .and()
+                .formLogin().disable() // 폼로그인 해제하겠다
+                .httpBasic().disable() // rest api만 고려 기본설정은 해제하겠다
+                .authorizeRequests()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/loginForm")
-                .loginProcessingUrl("/login") // login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행해줍니다.
-                // 내가 controller에 /login가 필요없음.
-                .defaultSuccessUrl("/")
-                .and()
-                .oauth2Login()
-                .loginPage("/loginForm")
-                .userInfoEndpoint();
-
-        return http.build();
-
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
+
+
 }

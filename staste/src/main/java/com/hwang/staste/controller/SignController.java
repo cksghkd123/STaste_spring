@@ -1,15 +1,17 @@
 package com.hwang.staste.controller;
 
 import com.hwang.staste.config.auth.PrincipalDetails;
+import com.hwang.staste.config.jwt.JwtTokenProvider;
 import com.hwang.staste.model.entity.User;
 import com.hwang.staste.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,20 +21,19 @@ public class SignController {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/signIn")
-    public String signIn(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) { //의존성 주입
-        System.out.println("========= /login ==============");
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        System.out.println("authentication:" + principalDetails.getUser());
-        System.out.println("userDetails:" + userDetails.getUser());
-        return "세션 정보 확인하기";
-    }
+    private final JwtTokenProvider jwtTokenProvider;
 
-    // OAuth 로그인이든 일반 로그인이든 PrincipalDetails!!
-    @GetMapping("/user")
-    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        System.out.println("principalDetails:" + principalDetails.getUser());
-        return "user";
+
+    @PostMapping("/signIn")
+    public String signIn(@RequestBody Map<String, String> signInForm) { //의존성 주입
+        User user = userRepository.findByUsername(signInForm.get("username"));
+        if (user == null){
+            throw new IllegalArgumentException("존재하지 않은 아이디입니다.");
+        }
+        if (!bCryptPasswordEncoder.matches(signInForm.get("password"), user.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+        return jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
     }
 
     @PostMapping("/signUp")
