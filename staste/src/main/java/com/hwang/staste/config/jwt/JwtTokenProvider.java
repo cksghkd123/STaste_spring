@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.hwang.staste.DTO.JwtToken;
 import com.hwang.staste.config.auth.PrincipalDetails;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -24,43 +25,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    public String createToken(Authentication authentication) {
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-
+    public JwtToken createToken(PrincipalDetails principalDetails) {
         String accessToken = JWT.create()
-                .withSubject(authentication.getName())
+                .withSubject(principalDetails.getUsername())
                 .withClaim("id", principalDetails.getUser().getId())
-                .withClaim("username", principalDetails.getUser().getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
                 .sign(Algorithm.HMAC256(JwtProperties.SECRET));
 
         String refreshToken = JWT.create()
+                .withSubject(principalDetails.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME * 36))
                 .sign(Algorithm.HMAC256(JwtProperties.SECRET));
 
-
-        return JWT.create()
-                .withClaim("token_type", "Bearer")
-                .withClaim("access_token", accessToken)
-                .withClaim("refresh_token", refreshToken)
-                .sign(Algorithm.none());
-    }
-
-    public Authentication getAuthentication(String accessToken) {
-        DecodedJWT decodedJWT = JWT.decode(accessToken);
-
-        if (!decodedJWT.getClaim("auth").isNull()) {
-            Collection<? extends GrantedAuthority> authorities = Arrays.stream(decodedJWT.getClaim("auth").asArray(String.class))
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
-
-            PrincipalDetails principalDetails = new PrincipalDetails(decodedJWT.getSubject(), "", authorities);
-            return new UsernamePasswordAuthenticationToken(principalDetails, "", authorities);
-        }
-        return null;
-    }
-    public DecodedJWT decodeToken(String token) throws JWTDecodeException {
-        return JWT.decode(token);
+        return new JwtToken(JwtProperties.TOKEN_PREFIX,accessToken,refreshToken);
     }
 
     public boolean validateToken(String token) {
