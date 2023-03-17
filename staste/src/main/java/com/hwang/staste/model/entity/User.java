@@ -26,8 +26,6 @@ public class User {
     @Column(nullable = false)
     private String email;
     private String roles;
-    private String provider;
-    private String providerId;
 
     @CreationTimestamp
     private Timestamp createDate;
@@ -39,8 +37,6 @@ public class User {
         this.password = password;
         this.email = email;
         this.roles = roles;
-        this.provider = provider;
-        this.providerId = providerId;
         this.createDate = createDate;
     }
 

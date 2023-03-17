@@ -5,21 +5,17 @@ import com.hwang.staste.model.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 @Data
-public class PrincipalDetails implements UserDetails{
+public class PrincipalDetails implements UserDetails {
 
     private User user; //콤포지션
 
     public PrincipalDetails(User user) {
         this.user = user;
     }
-
 
 
     @Override

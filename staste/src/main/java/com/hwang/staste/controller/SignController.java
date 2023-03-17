@@ -27,21 +27,25 @@ public class SignController {
     @PostMapping("/signIn")
     public String signIn(@RequestBody Map<String, String> signInForm) { //의존성 주입
         User user = userRepository.findByUsername(signInForm.get("username"));
-        if (user == null){
+        if (user == null) {
             throw new IllegalArgumentException("존재하지 않은 아이디입니다.");
         }
         if (!bCryptPasswordEncoder.matches(signInForm.get("password"), user.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        return jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
+        return jwtTokenProvider.createToken(user.getUsername());
     }
 
     @PostMapping("/signUp")
-    public String signUp(@RequestBody User user) {
-        String rawPassword = user.getPassword();
+    public String signUp(@RequestBody Map<String, String> user) {
+        String rawPassword = user.get("password");
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
-        user.setPassword(encPassword);
-        userRepository.save(user);
+
+        userRepository.save(User.builder()
+                .username(user.get("username"))
+                .password(encPassword)
+                .email(user.get("email"))
+                .build()).getId();
         return "회원가입완료";
     }
 
