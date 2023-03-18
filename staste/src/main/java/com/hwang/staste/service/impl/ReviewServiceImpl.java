@@ -13,6 +13,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
 
+    @Override
+    public List<Review> getReviews() {
+        return reviewRepository.findAll();
+    }
+
     @Autowired
     public ReviewServiceImpl(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;

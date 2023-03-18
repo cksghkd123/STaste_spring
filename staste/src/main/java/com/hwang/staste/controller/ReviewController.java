@@ -1,5 +1,6 @@
 package com.hwang.staste.controller;
 
+import com.hwang.staste.model.entity.Article;
 import com.hwang.staste.model.entity.Review;
 import com.hwang.staste.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 public class ReviewController {
 
     @Autowired
@@ -34,6 +36,10 @@ public class ReviewController {
         return reviews;
     }
 
+    @GetMapping("/reviews")
+    public List<Review> getArticles() {
+        return reviewService.getReviews();
+    }
     @PostMapping("/review")
     private Review PostReview(@RequestBody Review review){
         return reviewService.postReview(review);

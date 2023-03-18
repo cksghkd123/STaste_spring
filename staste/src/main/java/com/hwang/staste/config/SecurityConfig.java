@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final UserRepository userRepository;
-    private final CorsConfig corsConfig;
+//    private final CorsConfig corsConfig;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Bean

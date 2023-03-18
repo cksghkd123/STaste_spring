@@ -1,12 +1,9 @@
 package com.hwang.staste.controller;
 
-import com.hwang.staste.config.auth.PrincipalDetails;
 import com.hwang.staste.config.jwt.JwtTokenProvider;
 import com.hwang.staste.model.entity.User;
 import com.hwang.staste.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 public class SignController {
 
     private final UserRepository userRepository;
