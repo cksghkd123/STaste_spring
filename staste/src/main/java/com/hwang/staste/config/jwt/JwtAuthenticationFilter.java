@@ -24,6 +24,9 @@ public class JwtAuthenticationFilter extends GenericFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             System.out.println("토큰 유효하다");
         }
+        else {
+            System.out.println("통과못함ㅠ");
+        }
         chain.doFilter(request, response);
     }
 

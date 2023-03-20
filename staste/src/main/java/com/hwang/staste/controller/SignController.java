@@ -36,6 +36,10 @@ public class SignController {
 
     @PostMapping("/signUp")
     public String signUp(@RequestBody Map<String, String> user) {
+
+        if(userRepository.findByUsername(user.get("username")) != null){
+            throw new IllegalArgumentException("이미 존재하는 아이디 입니다.");
+        }
         String rawPassword = user.get("password");
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 
