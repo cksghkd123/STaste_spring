@@ -1,20 +1,25 @@
 package com.hwang.staste.controller;
 
 import com.hwang.staste.model.entity.Review;
+import com.hwang.staste.model.entity.User;
+import com.hwang.staste.repository.UserRepository;
 import com.hwang.staste.service.ReviewService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ReviewController {
 
-    @Autowired
-    private ReviewService reviewService;
+    private final UserRepository userRepository;
+    private final ReviewService reviewService;
 
-    @GetMapping("/review/user/{userId}")
+    @GetMapping("/review/{username}/{userId}")
     private List<Review> reviewsByUser(@PathVariable Long userId) {
         List<Review> reviews = reviewService.getReviewsByUser(userId);
         return reviews;
@@ -41,11 +46,17 @@ public class ReviewController {
     }
 
     @PostMapping("/review")
-    private Review PostReview(@RequestBody Review review) {
+    private Review PostReview(@RequestBody Map<String, String> reviewForm) {
+        User user = userRepository.findByUsername(reviewForm.get("username"));
+        Review review = Review.builder()
+                .user(user)
+                .food(reviewForm.get("food"))
+                .score(reviewForm.get("score"))
+
         return reviewService.postReview(review);
     }
 
-    @DeleteMapping("/review/{id}")
+    @DeleteMapping("/review/{username}/{reviewId}")
     private void DeleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
     }
