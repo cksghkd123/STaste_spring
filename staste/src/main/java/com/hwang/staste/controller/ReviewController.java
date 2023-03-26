@@ -5,11 +5,10 @@ import com.hwang.staste.model.entity.User;
 import com.hwang.staste.repository.UserRepository;
 import com.hwang.staste.service.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,44 +18,32 @@ public class ReviewController {
     private final UserRepository userRepository;
     private final ReviewService reviewService;
 
-    @GetMapping("/review/{username}/{userId}")
-    private List<Review> reviewsByUser(@PathVariable Long userId) {
-        List<Review> reviews = reviewService.getReviewsByUser(userId);
+    @GetMapping("/review/user/{username}")
+    private List<Review> getReviewsByUser(@PathVariable String username) {
+        User user = userRepository.findByUsername(username);
+        List<Review> reviews = reviewService.getReviewsByUser(user.getId());
         return reviews;
     }
 
-    @GetMapping("/review/{storeId}")
+    @GetMapping("/review/store/{storeId}")
     private List<Review> reviewsByStore(@RequestParam(value = "storeId", required = false) Long storeId) {
         List<Review> reviews = reviewService.getReviewsByStore(storeId);
         return reviews;
     }
 
-    @GetMapping("/review/{storeId}/{foodId}")
+    @GetMapping("/review/food/{foodId}")
     private List<Review> reviewsByFood(
-            @RequestParam(value = "storeId", required = false) Long storeId,
-            @RequestParam(value = "foodId", required = false) Long foodId) {
-
-        List<Review> reviews = reviewService.getReviewsByStoreByFood(storeId, foodId);
+            @RequestParam(value = "foodId", required = false) Long foodId){
+        List<Review> reviews = reviewService.getReviewsByFood(foodId);
         return reviews;
     }
 
-    @GetMapping("/reviews")
-    public List<Review> getArticles() {
-        return reviewService.getReviews();
-    }
-
     @PostMapping("/review")
-    private Review PostReview(@RequestBody Map<String, String> reviewForm) {
-        User user = userRepository.findByUsername(reviewForm.get("username"));
-        Review review = Review.builder()
-                .user(user)
-                .food(reviewForm.get("food"))
-                .score(reviewForm.get("score"))
-
+    private Review PostReview(@RequestBody Review review) {
         return reviewService.postReview(review);
     }
 
-    @DeleteMapping("/review/{username}/{reviewId}")
+    @DeleteMapping("/review/{reviewId}")
     private void DeleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
     }

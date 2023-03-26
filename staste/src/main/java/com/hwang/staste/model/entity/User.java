@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
     @Id @Column(name = "USER_ID")
@@ -28,6 +29,7 @@ public class User {
     @Column(nullable = false)
     private String email;
     private String roles;
+
 
     @CreationTimestamp
     private Timestamp createDate;

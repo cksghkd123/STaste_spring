@@ -13,30 +13,30 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    @Override
-    public List<Review> getReviews() {
-        return reviewRepository.findAll();
-    }
-
     @Autowired
     public ReviewServiceImpl(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
     @Override
+    public Review getReview(Long reviewId) {
+        return reviewRepository.findById(reviewId).orElseThrow(() -> new NullPointerException("없는데용"));
+    }
+
+    @Override
     public List<Review> getReviewsByUser(Long userId) {
-        return null;
+
+        return reviewRepository.findByUserId(userId);
     }
 
     @Override
     public List<Review> getReviewsByStore(Long storeId) {
-
-        return null;
+        return reviewRepository.findByStoreId(storeId);
     }
 
     @Override
-    public List<Review> getReviewsByStoreByFood(Long storeId, Long foodId) {
-        return null;
+    public List<Review> getReviewsByFood(Long foodId) {
+        return reviewRepository.findByFoodId(foodId);
     }
 
     @Override
@@ -48,5 +48,4 @@ public class ReviewServiceImpl implements ReviewService {
     public void deleteReview(Long reviewId) {
         reviewRepository.deleteById(reviewId);
     }
-
 }
