@@ -1,6 +1,7 @@
 package com.hwang.staste.controller;
 
 import com.hwang.staste.dto.PostFoodRequest;
+import com.hwang.staste.model.entity.Food;
 import com.hwang.staste.model.entity.Store;
 import com.hwang.staste.service.StoreService;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 public class StoreController {
     private final StoreService storeService;
 
@@ -20,9 +22,10 @@ public class StoreController {
         return storeService.getStores();
     }
 
-    @GetMapping("/store/{storeId}")
-    private Store getStore(@PathVariable Long storeId) {
-        return storeService.getStore(storeId);
+    @GetMapping("/store/{storeId}/menu")
+    private List<Food> getStoreFoods(@PathVariable Long storeId) {
+        Store store = storeService.getStore(storeId);
+        return store.getMenu();
     }
 
     @PostMapping("/food")
