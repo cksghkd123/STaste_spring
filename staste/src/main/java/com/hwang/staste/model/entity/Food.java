@@ -22,12 +22,12 @@ public class Food {
     private String explanation;
 
     @ManyToOne
-    @JoinColumn(name = "STORE_ID")
-    private Store store;
+    @JoinColumn(name = "MARKET_ID")
+    private Market market;
 
-    public Food(String name, String explanation, Store store) {
+    public Food(String name, String explanation, Market market) {
         this.name = name;
         this.explanation = explanation;
-        this.store = store;
+        this.market = market;
     }
 }

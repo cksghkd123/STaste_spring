@@ -2,17 +2,17 @@ package com.hwang.staste.service;
 
 import com.hwang.staste.dto.PostFoodRequest;
 import com.hwang.staste.model.entity.Food;
-import com.hwang.staste.model.entity.Store;
+import com.hwang.staste.model.entity.Market;
 
 import java.util.List;
 
-public interface StoreService {
+public interface MarketService {
 
-    Store getStore(Long id);
+    Market getMarket(Long id);
 
-    List<Store> getStores();
+    List<Market> getMarkets();
 
-    Store postNewStore(Store store);
+    Market postNewMarket(Market market);
 
     Food postFood(PostFoodRequest foodRequest);
     void deleteFood(Long foodId);

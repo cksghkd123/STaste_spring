@@ -25,9 +25,9 @@ public class ReviewController {
         return reviews;
     }
 
-    @GetMapping("/review/store/{storeId}")
-    private List<Review> reviewsByStore(@RequestParam(value = "storeId", required = false) Long storeId) {
-        List<Review> reviews = reviewService.getReviewsByStore(storeId);
+    @GetMapping("/review/market/{marketId}")
+    private List<Review> reviewsByMarket(@RequestParam(value = "marketId", required = false) Long marketId) {
+        List<Review> reviews = reviewService.getReviewsByMarket(marketId);
         return reviews;
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Store {
+public class Market {
 
     @Id
     @Column(name = "STORE_ID")
@@ -23,11 +23,11 @@ public class Store {
     private String name;
 
 
-    @OneToMany(mappedBy = "store",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "market",cascade = CascadeType.ALL)
     private List<Food> menu;
 
 
-    public Store(String name) {
+    public Market(String name) {
         this.name = name;
     }
 }

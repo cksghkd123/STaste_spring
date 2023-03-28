@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 public class PostFoodRequest {
     private String name;
     private String explanation;
-    private Long storeId;
+    private Long marketId;
 }

@@ -22,17 +22,17 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "STORE_ID")
-    private Store store;
+    private Market market;
     @ManyToOne
     @JoinColumn(name = "FOOD_ID")
     private Food food;
 
     private Long score;
 
-    public Review(User user, Food food, Store store, Long score) {
+    public Review(User user, Food food, Market market, Long score) {
         this.user = user;
         this.food = food;
-        this.store = store;
+        this.market = market;
         this.score = score;
     }
 }
