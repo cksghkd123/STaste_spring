@@ -1,5 +1,6 @@
 package com.hwang.staste.controller;
 
+import com.hwang.staste.dto.GetMenuResponse;
 import com.hwang.staste.dto.PostFoodRequest;
 import com.hwang.staste.model.entity.Food;
 import com.hwang.staste.model.entity.Market;
@@ -17,15 +18,24 @@ public class MarketController {
         this.marketService = marketService;
     }
 
-    @GetMapping("/stores")
+    @GetMapping("/markets")
     private List<Market> getMarkets() {
         return marketService.getMarkets();
     }
 
     @GetMapping("/market/{marketId}/menu")
-    private List<Food> getMarketFoods(@PathVariable Long marketId) {
+    private GetMenuResponse getMarketFoods(@PathVariable Long marketId) {
         Market market = marketService.getMarket(marketId);
-        return market.getMenu();
+        GetMenuResponse response = GetMenuResponse.builder()
+                        .marketName(market.getName())
+                        .menu(market.getMenu())
+                        .build();
+
+        System.out.println("Menu:");
+        for (Food food : response.getMenu()) {
+            System.out.println(food.toString());
+        }
+        return response;
     }
 
     @PostMapping("/food")
