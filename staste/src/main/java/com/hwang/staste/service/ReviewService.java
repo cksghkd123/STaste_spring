@@ -1,5 +1,6 @@
 package com.hwang.staste.service;
 
+import com.hwang.staste.dto.PostReviewRequest;
 import com.hwang.staste.model.entity.Review;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface ReviewService {
 
     List<Review> getReviewsByFood(Long foodId);
 
-    Review postReview(Review review);
+    Review postReview(PostReviewRequest reviewRequest);
 
     void deleteReview(Long reviewId);
 

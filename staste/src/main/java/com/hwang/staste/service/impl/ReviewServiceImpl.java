@@ -1,22 +1,27 @@
 package com.hwang.staste.service.impl;
 
+import com.hwang.staste.dto.PostReviewRequest;
+import com.hwang.staste.model.entity.Food;
 import com.hwang.staste.model.entity.Review;
+import com.hwang.staste.model.entity.User;
+import com.hwang.staste.repository.FoodRepository;
 import com.hwang.staste.repository.ReviewRepository;
+import com.hwang.staste.repository.UserRepository;
 import com.hwang.staste.service.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    public ReviewServiceImpl(ReviewRepository reviewRepository) {
-        this.reviewRepository = reviewRepository;
-    }
+    private final FoodRepository foodRepository;
 
     @Override
     public Review getReview(Long reviewId) {
@@ -40,7 +45,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review postReview(Review review) {
+    public Review postReview(PostReviewRequest reviewRequest) {
+        User user = userRepository.findByUsername(reviewRequest.getUsername());
+        Food food = foodRepository.findById(reviewRequest.getFoodId()).orElseThrow(() -> new NullPointerException("존재하지 않는 가게에용"));;
+        Review review = Review.builder()
+                .user(user)
+                .food(food)
+                .build();
         return reviewRepository.save(review);
     }
 

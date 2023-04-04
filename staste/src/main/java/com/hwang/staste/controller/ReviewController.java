@@ -1,5 +1,6 @@
 package com.hwang.staste.controller;
 
+import com.hwang.staste.dto.PostReviewRequest;
 import com.hwang.staste.model.entity.Review;
 import com.hwang.staste.model.entity.User;
 import com.hwang.staste.repository.UserRepository;
@@ -39,8 +40,8 @@ public class ReviewController {
     }
 
     @PostMapping("/review")
-    private Review PostReview(@RequestBody Review review) {
-        return reviewService.postReview(review);
+    private Review PostReview(@RequestBody PostReviewRequest reviewRequest) {
+        return reviewService.postReview(reviewRequest);
     }
 
     @DeleteMapping("/review/{reviewId}")
