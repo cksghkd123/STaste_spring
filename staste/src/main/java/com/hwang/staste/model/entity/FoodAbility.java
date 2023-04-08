@@ -19,8 +19,6 @@ public class FoodAbility {
     @GeneratedValue
     private Long id;
 
-    @OneToOne(mappedBy = "foodAbility")
-    private Food food;
 
     private Double hackLevel;
 

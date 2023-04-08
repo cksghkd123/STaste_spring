@@ -19,9 +19,6 @@ public class UserAbility {
     @GeneratedValue
     private Long id;
 
-    @OneToOne(mappedBy = "userAbility")
-    private User user;
-
     private Double hackLevel;
 
     private Double maraLevel;

@@ -32,10 +32,6 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.findByUserId(userId);
     }
 
-    @Override
-    public List<Review> getReviewsByMarket(Long marketId) {
-        return reviewRepository.findByMarketId(marketId);
-    }
 
     @Override
     public List<Review> getReviewsByFood(Long foodId) {

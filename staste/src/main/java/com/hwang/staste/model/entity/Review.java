@@ -2,6 +2,7 @@ package com.hwang.staste.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {
@@ -30,6 +32,8 @@ public class Review {
             joinColumns = @JoinColumn(name = "review_id"),
             inverseJoinColumns = @JoinColumn(name = "sticker_id"))
     private List<Sticker> stickerList;
+
+
 
     public Review(User user, Food food, List<Sticker> stickerList) {
         this.user = user;

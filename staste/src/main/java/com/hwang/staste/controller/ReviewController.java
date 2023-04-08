@@ -1,6 +1,9 @@
 package com.hwang.staste.controller;
 
+import com.hwang.staste.dto.FoodDTO;
 import com.hwang.staste.dto.PostReviewRequest;
+import com.hwang.staste.dto.ReviewDTO;
+import com.hwang.staste.model.entity.Market;
 import com.hwang.staste.model.entity.Review;
 import com.hwang.staste.model.entity.User;
 import com.hwang.staste.repository.UserRepository;
@@ -8,7 +11,9 @@ import com.hwang.staste.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,16 +24,14 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/review/user/{username}")
-    private List<Review> getReviewsByUser(@PathVariable String username) {
+    private List<ReviewDTO> getReviewsByUser(@PathVariable String username) {
         User user = userRepository.findByUsername(username);
         List<Review> reviews = reviewService.getReviewsByUser(user.getId());
-        return reviews;
-    }
-
-    @GetMapping("/review/market/{marketId}")
-    private List<Review> reviewsByMarket(@RequestParam(value = "marketId", required = false) Long marketId) {
-        List<Review> reviews = reviewService.getReviewsByMarket(marketId);
-        return reviews;
+        List<ReviewDTO> response = new ArrayList<>();
+        for (Review review : reviews) {
+            response.add(new ReviewDTO(review.getStickerList(), review.getFood().getName()));
+        }
+        return response;
     }
 
     @GetMapping("/review/food/{foodId}")
