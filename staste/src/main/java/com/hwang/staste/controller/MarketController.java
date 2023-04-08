@@ -4,7 +4,6 @@ import com.hwang.staste.dto.FoodDTO;
 import com.hwang.staste.dto.GetMenuResponse;
 import com.hwang.staste.dto.MarketDTO;
 import com.hwang.staste.dto.PostFoodRequest;
-import com.hwang.staste.model.entity.Food;
 import com.hwang.staste.model.entity.Market;
 import com.hwang.staste.service.MarketService;
 import org.springframework.web.bind.annotation.*;

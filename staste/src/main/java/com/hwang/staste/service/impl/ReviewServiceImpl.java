@@ -28,7 +28,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> getReviewsByUser(Long userId) {
-
         return reviewRepository.findByUserId(userId);
     }
 
@@ -45,8 +44,8 @@ public class ReviewServiceImpl implements ReviewService {
 
         UserAbility userAbility = user.getUserAbility();
         FoodAbility foodAbility = food.getFoodAbility();
-        reviewAlgo.updateAbility(userAbility, foodAbility, reviewRequest.getStickerList());
-
+        int reviewCount = reviewRepository.findByUserId(user.getId()).size();
+        reviewAlgo.updateAbility(userAbility, foodAbility, reviewRequest.getStickerList(),reviewCount);
 
         userAbilityRepository.save(userAbility);
         foodAbilityRepository.save(foodAbility);

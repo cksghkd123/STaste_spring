@@ -1,9 +1,6 @@
 package com.hwang.staste.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 public class FoodAbility {
 
     @Id
@@ -30,11 +28,4 @@ public class FoodAbility {
 
     private Double satisfyLevel;
 
-    public FoodAbility (Double hackLevel, Double maraLevel, Double tokLevel, Double sweetLevel, Double satisfyLevel) {
-        this.hackLevel = hackLevel;
-        this.maraLevel = maraLevel;
-        this.tokLevel = tokLevel;
-        this.sweetLevel = sweetLevel;
-        this.satisfyLevel = satisfyLevel;
-    }
 }
