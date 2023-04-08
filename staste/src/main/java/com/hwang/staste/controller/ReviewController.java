@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class ReviewController {
     }
 
     @PostMapping("/review")
-    private Review PostReview(@RequestBody PostReviewRequest reviewRequest) {
+    private String PostReview(@RequestBody PostReviewRequest reviewRequest) {
         return reviewService.postReview(reviewRequest);
     }
 

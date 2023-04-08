@@ -2,6 +2,7 @@ package com.hwang.staste.controller;
 
 import com.hwang.staste.config.jwt.JwtTokenProvider;
 import com.hwang.staste.model.entity.User;
+import com.hwang.staste.model.entity.UserAbility;
 import com.hwang.staste.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -43,10 +44,19 @@ public class SignController {
         String rawPassword = user.get("password");
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 
+        Double score = Double.valueOf(5);
+        UserAbility userAbility = UserAbility.builder()
+                .maraLevel(score)
+                .hackLevel(score)
+                .tokLevel(score)
+                .sweetLevel(score)
+                .build();
+
         userRepository.save(User.builder()
                 .username(user.get("username"))
                 .password(encPassword)
                 .email(user.get("email"))
+                .userAbility(userAbility)
                 .build()).getId();
         return "회원가입완료";
     }

@@ -23,13 +23,17 @@ public class Food {
 
     private String explanation;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private FoodAbility foodAbility;
+
     @ManyToOne
     @JoinColumn(name = "MARKET_ID")
     private Market market;
 
-    public Food(String name, String explanation, Market market) {
+    public Food(String name, String explanation, Market market, FoodAbility foodAbility) {
         this.name = name;
         this.explanation = explanation;
         this.market = market;
+        this.foodAbility = foodAbility;
     }
 }

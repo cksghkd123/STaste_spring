@@ -2,6 +2,7 @@ package com.hwang.staste.service.impl;
 
 import com.hwang.staste.dto.PostFoodRequest;
 import com.hwang.staste.model.entity.Food;
+import com.hwang.staste.model.entity.FoodAbility;
 import com.hwang.staste.model.entity.Market;
 import com.hwang.staste.repository.FoodRepository;
 import com.hwang.staste.repository.MarketRepository;
@@ -40,18 +41,28 @@ public class MarketServiceImpl implements MarketService {
     public Food postFood(PostFoodRequest foodRequest) {
         Long marketId = foodRequest.getMarketId();
         if (marketId == null) {
-            throw new IllegalArgumentException("The given market id must not be null!");
+            throw new IllegalArgumentException("잘못된 경로인데요...");
         }
 
         Market market = getMarket(marketId);
         if (market == null) {
-            throw new IllegalArgumentException("No market found with id: " + marketId);
+            throw new IllegalArgumentException("그런 가게는 없는데요... " + marketId);
         }
+
+        Double score = Double.valueOf(5);
+        FoodAbility foodAbility = FoodAbility.builder()
+                .hackLevel(score)
+                .maraLevel(score)
+                .tokLevel(score)
+                .sweetLevel(score)
+                .satisfyLevel(score)
+                .build();
 
         Food food = Food.builder()
                 .name(foodRequest.getName())
                 .explanation(foodRequest.getExplanation())
                 .market(market)
+                .foodAbility(foodAbility)
                 .build();
 
         return foodRepository.save(food);

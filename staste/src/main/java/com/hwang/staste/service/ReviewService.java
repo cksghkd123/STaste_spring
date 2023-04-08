@@ -14,7 +14,7 @@ public interface ReviewService {
 
     List<Review> getReviewsByFood(Long foodId);
 
-    Review postReview(PostReviewRequest reviewRequest);
+    String postReview(PostReviewRequest reviewRequest);
 
     void deleteReview(Long reviewId);
 

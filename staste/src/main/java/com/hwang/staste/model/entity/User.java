@@ -31,17 +31,21 @@ public class User {
     private String roles;
 
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserAbility userAbility;
+
     @CreationTimestamp
     private Timestamp createDate;
 
 
     @Builder
-    public User(String username, String password, String email, String roles,String provider, String providerId, Timestamp createDate){
+    public User(String username, String password, String email, String roles,String provider, String providerId, Timestamp createDate, UserAbility userAbility){
         this.username = username;
         this.password = password;
         this.email = email;
         this.roles = roles;
         this.createDate = createDate;
+        this.userAbility = userAbility;
     }
 
 

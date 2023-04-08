@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Builder
@@ -21,18 +22,18 @@ public class Review {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "STORE_ID")
-    private Market market;
-    @ManyToOne
     @JoinColumn(name = "FOOD_ID")
     private Food food;
 
-    private Long score;
+    @ManyToMany
+    @JoinTable(name = "review_sticker",
+            joinColumns = @JoinColumn(name = "review_id"),
+            inverseJoinColumns = @JoinColumn(name = "sticker_id"))
+    private List<Sticker> stickerList;
 
-    public Review(User user, Food food, Market market, Long score) {
+    public Review(User user, Food food, List<Sticker> stickerList) {
         this.user = user;
         this.food = food;
-        this.market = market;
-        this.score = score;
+        this.stickerList = stickerList;
     }
 }
